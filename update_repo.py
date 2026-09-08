@@ -67,24 +67,44 @@ def manifest_info(path):
 
 
 def latest_apk(package, github_repo, pattern):
-    """Return (local_path, versionCode, versionName) for the newest release APK."""
-    data = gh("https://api.github.com/repos/%s/releases?per_page=10" % github_repo)
+    """Return (local_path, versionCode, versionName) for the newest release APK.
+
+    The GitHub releases API does NOT guarantee newest-first ordering, so
+    collect every matching asset and pick the one whose release has the
+    latest published_at. As a guard against stale builds (e.g. an old
+    APK still carrying versionCode=1), also require a strictly
+    increasing versionCode: a matching release with a lower versionCode
+    than one seen later is skipped.
+    """
+    data = gh("https://api.github.com/repos/%s/releases?per_page=30" % github_repo)
+    candidates = []
     for rel in data:
+        pub = rel.get("published_at") or rel.get("created_at") or ""
         for asset in rel.get("assets", []):
             if pattern.match(asset["name"]):
-                dest = os.path.join(REPO_DIR, "download-%s.apk" % package)
-                if not os.path.exists(dest):
-                    log("downloading %s (%s)" % (asset["name"], rel["tag_name"]))
-                    urllib.request.urlretrieve(
-                        asset["browser_download_url"], dest
-                    )
-                pkg, vc, vn = manifest_info(dest)
-                if pkg != package:
-                    raise SystemExit(
-                        "package mismatch: expected %s, got %s" % (package, pkg)
-                    )
-                return dest, vc, vn
-    raise SystemExit("no APK matching %r in recent releases of %s" % (pattern, github_repo))
+                candidates.append((pub, rel["tag_name"], asset))
+    if not candidates:
+        raise SystemExit("no APK matching %r in recent releases of %s" % (pattern, github_repo))
+    candidates.sort(key=lambda c: c[0], reverse=True)
+    for pub, tag_name, asset in candidates:
+        dest = os.path.join(REPO_DIR, "download-%s.apk" % package)
+        if not os.path.exists(dest):
+            log("downloading %s (%s)" % (asset["name"], tag_name))
+            urllib.request.urlretrieve(asset["browser_download_url"], dest)
+        pkg, vc, vn = manifest_info(dest)
+        if pkg != package:
+            raise SystemExit(
+                "package mismatch: expected %s, got %s" % (package, pkg)
+            )
+        if vc <= 1:
+            # Stale build with the upstream placeholder versionCode.
+            log("skipping %s (%s): versionCode %d is not usable by F-Droid"
+                % (asset["name"], tag_name, vc))
+            continue
+        return dest, vc, vn
+    raise SystemExit(
+        "no usable release APK for %s (all candidates had versionCode <= 1)" % package
+    )
 
 
 def prune(index_file):

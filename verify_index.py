@@ -17,7 +17,7 @@ import zipfile
 
 REPO_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "repo")
 JAR = os.path.join(REPO_DIR, "index-v1.jar")
-EXPECTED = ["com.cosmos.unreddit", "org.armorpaint"]
+EXPECTED = ["com.cosmos.unreddit", "org.armorpaint", "ch.protonmail.android"]
 SUPPORTED_DIGESTS = ("SHA1-Digest", "SHA-256-Digest")
 
 

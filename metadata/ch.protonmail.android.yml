@@ -1,0 +1,10 @@
+Name: Proton Mail
+Summary: Private email client that works without Google Play Services
+Description: |
+  Proton Mail for Android. This fork adds local new-mail notifications
+  (no FCM/Google Play Services), FIDO2 security keys over NFC/USB, and a
+  configurable background sync interval.
+Categories: Email
+WebSite: https://proton.me
+SourceCode: https://github.com/haasanen/protonmail-android-mail
+License: Apache-2.0

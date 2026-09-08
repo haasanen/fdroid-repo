@@ -1,0 +1,97 @@
+{
+  "METADATA_VERSION": 20002,
+  "allow_disabled_algorithms": false,
+  "com.cosmos.unreddit_155.apk": {
+    "hash": "3e922c2a02d52b22b33ec63bfd24c0f1deffc0478632c903cc73edea619743b2",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        28
+      ],
+      [
+        "android.permission.POST_NOTIFICATIONS",
+        null
+      ],
+      [
+        "android.permission.FOREGROUND_SERVICE",
+        null
+      ],
+      [
+        "android.permission.WAKE_LOCK",
+        null
+      ],
+      [
+        "android.permission.ACCESS_NETWORK_STATE",
+        null
+      ],
+      [
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        null
+      ],
+      [
+        "com.cosmos.unreddit.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ],
+      [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        28
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": {},
+    "packageName": "com.cosmos.unreddit",
+    "versionCode": 155,
+    "name": "Stealth",
+    "versionName": "2.5.55",
+    "minSdkVersion": 23,
+    "targetSdkVersion": 33,
+    "sig": "97b3ec5f8270257ebdd91c82c4ced1fe",
+    "signer": "de76acddc6c424decbf2b9fea428cacd9eb7006d4dbacc66d97751cc38a733d7",
+    "size": 5589874,
+    "apkName": "com.cosmos.unreddit_155.apk",
+    "added": 1788850941.396206
+  },
+  "org.armorpaint_260828.apk": {
+    "hash": "771dc6cb9214a937b7e7fa9beba1963d2f269a3b3ee93ae2d420e795851449f4",
+    "hashType": "sha256",
+    "uses-permission": [
+      [
+        "android.permission.INTERNET",
+        null
+      ],
+      [
+        "org.armorpaint.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+        null
+      ]
+    ],
+    "uses-permission-sdk-23": [],
+    "features": [
+      "android.hardware.vulkan.version"
+    ],
+    "icons_src": {},
+    "icons": {},
+    "antiFeatures": {},
+    "packageName": "org.armorpaint",
+    "versionCode": 260828,
+    "name": "ArmorPaint",
+    "versionName": "v1.0 rc2 (260828) - fdf1f76",
+    "minSdkVersion": 35,
+    "targetSdkVersion": 36,
+    "nativecode": [
+      "arm64-v8a"
+    ],
+    "sig": "334466f15675dab9a185dab9772aa3ef",
+    "signer": "8654dc1415a83c8de70fda396c5d0efab1261b7b1c717478bc4cc49e85a19df0",
+    "size": 23443166,
+    "apkName": "org.armorpaint_260828.apk",
+    "added": 1788850941.613586
+  }
+}

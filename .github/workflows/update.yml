@@ -1,0 +1,76 @@
+name: Update F-Droid repo
+
+# Two triggers (push + poll):
+#  - workflow_dispatch: the source repos' release CI dispatches this via API
+#    right after publishing (instant push mechanism).
+#  - schedule: weekly poll as a safety net (checks for new release APKs).
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 4 * * 1'
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: fdroid-repo-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17 (jarsigner, keytool)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install fdroidserver
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          export PATH="$HOME/.local/bin:$PATH"
+          uv venv .venv
+          uv pip install -p .venv/bin/python fdroidserver==2.4.5
+
+      - name: Restore repo signing keystore (secret -> file, never committed)
+        env:
+          REPO_KEYSTORE_BASE64: ${{ secrets.REPO_KEYSTORE_BASE64 }}
+          REPO_STORE_PASS: ${{ secrets.REPO_STORE_PASS }}
+        run: |
+          echo "$REPO_KEYSTORE_BASE64" | base64 -d > repo.jks
+          chmod 600 repo.jks
+          keytool -list -keystore repo.jks -storetype JKS -storepass "$REPO_STORE_PASS" > /dev/null
+          echo "keystore loads OK"
+
+      - name: Download latest APKs + build signed index
+        env:
+          FDROID_STORE_PASS: ${{ secrets.REPO_STORE_PASS }}
+          FDROID_KEY_PASS: ${{ secrets.REPO_KEY_PASS }}
+        run: .venv/bin/python update_repo.py
+
+      - name: Verify signed index (client contract)
+        run: .venv/bin/python verify_index.py
+
+      - name: Stage Pages site (repo/ under site root -> .../fdroid-repo/repo/)
+        run: |
+          mkdir -p pages-site/repo
+          cp -r repo/. pages-site/repo/
+          rm -rf pages-site/repo/status pages-site/repo/diff
+          ls -la pages-site/repo
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages-site
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

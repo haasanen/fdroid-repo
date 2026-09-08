@@ -1,0 +1,9 @@
+serverwebroot: repo
+repo_name: "haasanen apps"
+repo_description: "Custom F-Droid repository for Stealth and ArmorPaint. APKs are built by their respective GitHub Actions release pipelines and served here with a signed index."
+repo_url: https://haasanen.github.io/fdroid-repo/repo
+repo_icon: icon.png
+keystore: repo.jks
+repo_keyalias: fdroidrepo
+keystorepass: {env: FDROID_STORE_PASS}
+keypass: {env: FDROID_KEY_PASS}

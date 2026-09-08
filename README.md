@@ -1,4 +1,4 @@
-# haasanen F-Droid repo
+# Haasanen F-Droid repo
 
 A custom [F-Droid](https://f-droid.org) repository serving **Stealth**
 (`com.cosmos.unreddit`) and **ArmorPaint** (`org.armorpaint`) with automatic,

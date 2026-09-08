@@ -29,6 +29,10 @@ APPS = {
         "haasanen/armorpaint",
         re.compile(r"^ArmorPaint-[0-9a-f]{8}-android-arm64\.apk$"),
     ),
+    "ch.protonmail.android": (
+        "haasanen/protonmail-android-mail",
+        re.compile(r"^ProtonMail-[0-9.]+-[0-9a-f]{7}-notif-fix\.apk$"),
+    ),
 }
 
 

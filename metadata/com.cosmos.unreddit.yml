@@ -1,0 +1,9 @@
+Name: Stealth
+Summary: A privacy-friendly Reddit reader
+Description: |-
+  A privacy-friendly Reddit reader for the official reddit.com, without
+  WebView or JavaScript. No account needed, no tracking.
+Categories: Social
+WebSite: https://github.com/haasanen/cosmosapps_stealth
+SourceCode: https://github.com/haasanen/cosmosapps_stealth
+License: GPL-3.0-only

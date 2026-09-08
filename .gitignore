@@ -1,0 +1,6 @@
+# secrets and generated files - never commit
+keys/
+repo.jks
+repo/
+.venv/
+__pycache__/

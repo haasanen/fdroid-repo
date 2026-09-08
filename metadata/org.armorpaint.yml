@@ -1,0 +1,9 @@
+Name: ArmorPaint
+Summary: An open-source 3D texture painting tool
+Description: |-
+  ArmorPaint is a free and open-source tool to paint textures on 3D
+  models. Built on Godot, runs natively on arm64 Android (Vulkan).
+Categories: Graphics
+WebSite: https://github.com/haasanen/armorpaint
+SourceCode: https://github.com/haasanen/armorpaint
+License: Zlib

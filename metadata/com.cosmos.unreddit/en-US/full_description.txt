@@ -1,0 +1,6 @@
+Stealth provides features from Reddit, without the need for an account. In
+fact, the app doesn't even let you log in with a Reddit account.
+
+Read the front page of r/Android, your subscribed communities, and any post
+or thread — with previews, image galleries, and full comment threads, all
+without JavaScript, WebView, or an account. No tracking, no data collection.

@@ -128,6 +128,7 @@ def prune(index_file):
 def main():
     os.makedirs(REPO_DIR, exist_ok=True)
     # 1. fetch + rename each latest APK to <package>_<versionCode>.apk
+    latest = {}
     for package, (github_repo, pattern) in APPS.items():
         path, vc, vn = latest_apk(package, github_repo, pattern)
         dest = os.path.join(REPO_DIR, "%s_%s.apk" % (package, vc))
@@ -135,7 +136,20 @@ def main():
             if os.path.exists(dest):
                 os.remove(dest)
             os.rename(path, dest)
+        latest[package] = os.path.basename(dest)
         log("%s -> %s (vc %s, %s)" % (package, os.path.basename(dest), vc, vn))
+
+    # 1b. delete every APK that is not the current latest for its package.
+    # fdroidserver indexes ALL apks in repo/, so without this the index
+    # would keep accumulating old versions (and disk usage on Pages grows
+    # without bound — with a 100 MB Proton APK that matters).
+    for fn in os.listdir(REPO_DIR):
+        if not fn.endswith(".apk"):
+            continue
+        pkg, _, _ = fn.rpartition("_")
+        if latest.get(pkg) != fn:
+            os.remove(os.path.join(REPO_DIR, fn))
+            log("removed stale apk: %s" % fn)
 
     # 2. signed index update (config.yml reads secrets from the environment)
     r = subprocess.run(

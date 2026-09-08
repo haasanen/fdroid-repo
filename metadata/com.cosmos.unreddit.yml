@@ -1,9 +1,15 @@
 Name: Stealth
-Summary: A privacy-friendly Reddit reader
-Description: |-
-  A privacy-friendly Reddit reader for the official reddit.com, without
-  WebView or JavaScript. No account needed, no tracking.
-Categories: Social
+Summary: Account-free, privacy-oriented, feature-rich Reddit client
+Description: |
+  Stealth provides features from Reddit, without the need for an account. In
+  fact, the app doesn't even let you log in with a Reddit account.
+
+  Read the front page of r/Android, your subscribed communities, and any post
+  or thread — with previews, image galleries, and full comment threads, all
+  without JavaScript, WebView, or an account. No tracking, no data collection.
+Categories: Forum, Internet, Reading
 WebSite: https://github.com/haasanen/cosmosapps_stealth
 SourceCode: https://github.com/haasanen/cosmosapps_stealth
+IssueTracker: https://github.com/haasanen/cosmosapps_stealth/issues
 License: GPL-3.0-only
+AuthorName: CosmosApps

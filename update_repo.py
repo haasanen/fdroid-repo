@@ -33,6 +33,10 @@ APPS = {
         "haasanen/protonmail-android-mail",
         re.compile(r"^ProtonMail-[0-9.]+-[0-9a-f]{7}-notif-fix\.apk$"),
     ),
+    "org.mozilla.fennec_fdroid": (
+        "haasanen/fennecbuild",
+        re.compile(r"^Fennec-[0-9]+-[0-9a-f]{7}\.apk$"),
+    ),
 }
 
 

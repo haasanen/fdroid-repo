@@ -1,0 +1,27 @@
+Name: Fennec F-Droid
+Summary: GMS-free Firefox fork for GrapheneOS, built from the official F-Droid recipe
+Description: |
+  Fennec F-Droid — the same build as the official F-Droid package (Firefox
+  155, built by the relan/fennecbuild recipe with GMS replaced by microG
+  components) — republished from this repository with a permanent release
+  key so updates can be verified and rolled out incrementally.
+
+  The base build is identical to the official one. This repository is the
+  delivery vehicle for upcoming additions, first among them native
+  Security Key (FIDO2/WebAuthn) support over USB and NFC, so a YubiKey
+  can be used by websites in the browser on a device without any Google
+  component or microG FIDO service.
+
+  Install note: because the signing key differs from the official F-Droid
+  build, uninstall the official Fennec F-Droid before installing this one
+  (the app data is wiped by Android when the signature changes).
+Categories:
+  - Browser
+  - Internet
+WebSite: https://support.mozilla.org/products/mobile
+SourceCode: https://github.com/haasanen/fennecbuild
+IssueTracker: https://github.com/haasanen/fennecbuild/issues
+License: MPL-2.0
+AntiFeatures:
+  Tracking:
+    en-US: Connects to various Mozilla services that can track users.

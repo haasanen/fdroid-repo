@@ -1,0 +1,21 @@
+Name: Calendar
+Summary: AOSP Calendar fork with a working event editor
+Description: |
+  A fork of the AOSP Calendar app (packages/apps/Calendar, 2018 full tree),
+  rebranded and maintained as net.haasanen.calendar.
+
+  Unlike the reduced calendar shipped in recent AOSP (which removed event
+  creation), this build keeps the complete original feature set: day, week
+  and month views, event creation and editing with recurrence, reminders,
+  search, agenda, and home-screen widgets. Events are read from and written
+  to the standard Android system calendar provider, so they are visible to
+  every other app on the device. No Google services are required.
+
+  CalDAV account support is in development.
+Categories:
+  - Calendar &amp; Agenda
+WebSite: https://github.com/haasanen/aosp-calendar
+SourceCode: https://github.com/haasanen/aosp-calendar
+IssueTracker: https://github.com/haasanen/aosp-calendar/issues
+License: Apache-2.0
+AuthorName: haasanen

@@ -25,6 +25,10 @@ APPS = {
         "haasanen/cosmosapps_stealth",
         re.compile(r"^Stealth-[0-9a-f]{7}-android\.apk$"),
     ),
+    "net.haasanen.calendar": (
+        "haasanen/aosp-calendar",
+        re.compile(r"^Calendar-[0-9a-f]{7}-android\.apk$"),
+    ),
     "org.armorpaint": (
         "haasanen/armorpaint",
         re.compile(r"^ArmorPaint-[0-9a-f]{8}-android-arm64\.apk$"),

@@ -94,24 +94,33 @@ def latest_apk(package, github_repo, pattern):
     if not candidates:
         raise SystemExit("no APK matching %r in recent releases of %s" % (pattern, github_repo))
     candidates.sort(key=lambda c: c[0], reverse=True)
+    # Pre-scan: the highest versionCode among ALL candidates. A build is only
+    # "stale" if a HIGHER versionCode release exists. This still skips old
+    # vc=1 placeholder builds shadowed by a real vc>1 release, but allows a
+    # brand-new app whose first (and only) release legitimately has vc=1.
+    max_vc = -1
     for pub, tag_name, asset in candidates:
         dest = os.path.join(REPO_DIR, "download-%s.apk" % package)
         if not os.path.exists(dest):
             log("downloading %s (%s)" % (asset["name"], tag_name))
             urllib.request.urlretrieve(asset["browser_download_url"], dest)
+        _pkg, vc, _vn = manifest_info(dest)
+        max_vc = max(max_vc, vc)
+    for pub, tag_name, asset in candidates:
+        dest = os.path.join(REPO_DIR, "download-%s.apk" % package)
         pkg, vc, vn = manifest_info(dest)
         if pkg != package:
             raise SystemExit(
                 "package mismatch: expected %s, got %s" % (package, pkg)
             )
-        if vc <= 1:
-            # Stale build with the upstream placeholder versionCode.
-            log("skipping %s (%s): versionCode %d is not usable by F-Droid"
-                % (asset["name"], tag_name, vc))
+        if vc < max_vc:
+            # Stale build shadowed by a higher-versionCode release.
+            log("skipping %s (%s): versionCode %d < max %d (stale)"
+                % (asset["name"], tag_name, vc, max_vc))
             continue
         return dest, vc, vn
     raise SystemExit(
-        "no usable release APK for %s (all candidates had versionCode <= 1)" % package
+        "no usable release APK for %s" % package
     )
 
 

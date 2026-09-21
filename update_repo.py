@@ -129,12 +129,45 @@ def prune(index_file):
     return keep
 
 
+def current_indexed_apk(package):
+    """apkName of `package` in the last built index, if any (None otherwise).
+
+    Lets main() keep serving an app whose source repo temporarily has no
+    usable release, instead of dropping it (or, before the Fennec
+    onboarding, aborting the whole index for every app).
+    """
+    idx_path = os.path.join(REPO_DIR, "index-v1.json")
+    if not os.path.exists(idx_path):
+        return None
+    try:
+        with open(idx_path, encoding="utf-8") as f:
+            idx = json.load(f)
+        versions = idx.get("packages", {}).get(package, [])
+        if versions:
+            return versions[0].get("apkName")
+    except (ValueError, KeyError, OSError):
+        pass
+    return None
+
+
 def main():
     os.makedirs(REPO_DIR, exist_ok=True)
     # 1. fetch + rename each latest APK to <package>_<versionCode>.apk
+    # A source repo without a usable release must NOT take the other apps
+    # down: keep the app's already-indexed APK if there is one, else skip it.
     latest = {}
     for package, (github_repo, pattern) in APPS.items():
-        path, vc, vn = latest_apk(package, github_repo, pattern)
+        try:
+            path, vc, vn = latest_apk(package, github_repo, pattern)
+        except SystemExit as e:
+            kept = current_indexed_apk(package)
+            if kept and os.path.exists(os.path.join(REPO_DIR, kept)):
+                log("WARNING: %s: %s — keeping existing indexed APK %s"
+                    % (package, e, kept))
+                latest[package] = kept
+                continue
+            log("WARNING: %s: %s — not in index, skipping" % (package, e))
+            continue
         dest = os.path.join(REPO_DIR, "%s_%s.apk" % (package, vc))
         if os.path.abspath(path) != os.path.abspath(dest):
             if os.path.exists(dest):

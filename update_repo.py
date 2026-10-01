@@ -35,7 +35,11 @@ APPS = {
     ),
     "ch.protonmail.android": (
         "haasanen/protonmail-android-mail",
-        re.compile(r"^ProtonMail-[0-9.]+-[0-9a-f]{7}-notif-fix\.apk$"),
+        # APK name = ProtonMail-<versionName>-<sha7>-notif-fix.apk where
+        # versionName carries our fork suffix -h<N> since 2026-10-01
+        # (7.12.0-h1). The suffix is OPTIONAL so pre-suffix releases still
+        # match (the first -h build is what the suffix started).
+        re.compile(r"^ProtonMail-[0-9.]+(?:-h[0-9]+)?-[0-9a-f]{7}-notif-fix\.apk$"),
     ),
     "org.mozilla.fennec_fdroid": (
         "haasanen/fennecbuild",

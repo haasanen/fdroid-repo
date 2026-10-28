@@ -45,6 +45,13 @@ APPS = {
         "haasanen/fennecbuild",
         re.compile(r"^Fennec-[0-9]+-[0-9a-f]{7}\.apk$"),
     ),
+    "com.fsck.k9": (
+        "haasanen/thunderbird-android",
+        # K-9 Mail fork series: k9mail-<upstream>-h<N>.apk (v24.0-h1 first;
+        # release assets are built locally and uploaded by hand for now -
+        # the fork has no CI yet. -h suffix optional for future naming drift.)
+        re.compile(r"^k9mail-[0-9.]+(?:-h[0-9]+)?\.apk$"),
+    ),
 }
 
 

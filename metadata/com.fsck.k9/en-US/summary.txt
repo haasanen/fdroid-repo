@@ -1,0 +1,1 @@
+K-9 Mail 24.0 with windowed message lists (no more OOM crashes)

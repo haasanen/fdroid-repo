@@ -1,0 +1,7 @@
+A personal fork of K-9 Mail 24.0 (thunderbird-android), maintained by haasanen, keeping the classic K-9 Mail experience.
+
+Fork changes over upstream 24.0:
+
+* Message list windowing: opening a large folder or the unified inbox no longer runs the app out of memory. Upstream issue #11069 loaded every message row of a folder at once, which crashed big inboxes - including right after deleting a message, when the list reload died mid-action. This fork loads a window of the list at a time and grows it with a "Load more" footer. Message counts stay correct in both flat and threaded views, and search keeps operating on the full folder.
+
+Note: this APK is signed with the fork's own release key. It cannot update over (or coexist-installed onto) an official K-9 Mail or Thunderbird for Android install - uninstall that first if you are switching.

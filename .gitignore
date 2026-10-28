@@ -1,6 +1,8 @@
-# secrets and generated files - never commit
+archive/
+tmp/
+*.patch
 keys/
-repo.jks
-repo/
-.venv/
+set_secret.py
+set_secrets.py
+wire_push_triggers.py
 __pycache__/

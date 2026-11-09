@@ -72,5 +72,19 @@ jobs:
         with:
           path: pages-site
 
+      - name: Unique Pages build version
+        id: shaout
+        run: echo "version=$(printf '%040x' "$GITHUB_RUN_ID")" >> "$GITHUB_OUTPUT"
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
+        env:
+          # deploy-pages takes the Pages build version from GITHUB_SHA (there is
+          # no input for it). This repo's *content* (index + APKs) is CI-built
+          # and usually rebuilds from an unchanged commit, so every deploy since
+          # 2026-10-28 registered the SAME version 37c3f28... and Pages kept
+          # serving the first content built for it -- the 2026-11-09 dispatches
+          # that carried Fennec 1580027 both "succeeded" while the live index
+          # still showed 1580026. A per-run unique (SHA-shaped) version makes
+          # every successful update actually swap the served content.
+          GITHUB_SHA: ${{ steps.shaout.outputs.version }}

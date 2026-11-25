@@ -77,6 +77,12 @@ jobs:
         run: echo "version=$(printf '%040x' "$GITHUB_RUN_ID")" >> "$GITHUB_OUTPUT"
 
       - name: Deploy to GitHub Pages
+        id: deploy
+        # deploy-pages v4.0.5's artifact-metadata read fails intermittently
+        # ("No artifacts named github-pages were found" while the artifact
+        # exists): 4/5 runs on 2026-11-25. Keep the first attempt non-fatal and
+        # retry once after a delay; two failures in a row still fail the job.
+        continue-on-error: true
         uses: actions/deploy-pages@v4.0.5
         env:
           # deploy-pages takes the Pages build version from GITHUB_SHA (there is
@@ -87,4 +93,14 @@ jobs:
           # that carried Fennec 1580027 both "succeeded" while the live index
           # still showed 1580026. A per-run unique (SHA-shaped) version makes
           # every successful update actually swap the served content.
+          GITHUB_SHA: ${{ steps.shaout.outputs.version }}
+
+      - name: Wait out Pages artifact-metadata lag
+        if: always() && steps.deploy.outcome == 'failure'
+        run: sleep 90
+
+      - name: Deploy to GitHub Pages (retry)
+        if: always() && steps.deploy.outcome == 'failure'
+        uses: actions/deploy-pages@v4.0.5
+        env:
           GITHUB_SHA: ${{ steps.shaout.outputs.version }}

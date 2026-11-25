@@ -23,15 +23,15 @@ METADATA_DIR = os.path.join(REPO_ROOT, "metadata")
 APPS = {
     "com.cosmos.unreddit": (
         "haasanen/cosmosapps_stealth",
-        re.compile(r"^Stealth-[0-9a-f]{7}-android\.apk$"),
+        re.compile(r"^Stealth-[0-9a-f]{7,40}-android\.apk$"),
     ),
     "net.haasanen.calendar": (
         "haasanen/aosp-calendar",
-        re.compile(r"^Calendar-[0-9a-f]{7}-android\.apk$"),
+        re.compile(r"^Calendar-[0-9a-f]{7,40}-android\.apk$"),
     ),
     "org.armorpaint": (
         "haasanen/armorpaint",
-        re.compile(r"^ArmorPaint-[0-9a-f]{8}-android-arm64\.apk$"),
+        re.compile(r"^ArmorPaint-[0-9a-f]{7,40}-android-arm64\.apk$"),
     ),
     "ch.protonmail.android": (
         "haasanen/protonmail-android-mail",
@@ -39,11 +39,11 @@ APPS = {
         # versionName carries our fork suffix -h<N> since 2026-10-01
         # (7.12.0-h1). The suffix is OPTIONAL so pre-suffix releases still
         # match (the first -h build is what the suffix started).
-        re.compile(r"^ProtonMail-[0-9.]+(?:-h[0-9]+)?-[0-9a-f]{7}-notif-fix\.apk$"),
+        re.compile(r"^ProtonMail-[0-9.]+(?:-h[0-9]+)?-[0-9a-f]{7,40}-notif-fix\.apk$"),
     ),
     "org.mozilla.fennec_fdroid": (
         "haasanen/fennecbuild",
-        re.compile(r"^Fennec-[0-9]+-[0-9a-f]{7}\.apk$"),
+        re.compile(r"^Fennec-[0-9]+-[0-9a-f]{7,40}\.apk$"),
     ),
     "com.fsck.k9": (
         "haasanen/thunderbird-android",
